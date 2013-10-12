@@ -3,7 +3,7 @@
 SoftwareSerial SIM900(7, 8); // RX, TX
 
 // software equivalent of pressing the GSM shield "power" button
-// implemented by John Boxall of tronixstuff
+// original implemented by John Boxall of tronixstuff
 void SIM900power()
 {
   digitalWrite(9, HIGH);
@@ -12,17 +12,18 @@ void SIM900power()
   delay(5000);
 }
 
-// implemented by John Boxall of tronixstuff
+// originally implemented by John Boxall of tronixstuff
 void callSomeone(String phoneNumber, int callLength)
 {
-  SIM900.println("ATD + " + phoneNumber + ";"); // dial US (212) 8675309
+  SIM900.println("ATD + " + phoneNumber + ";");
   delay(100);
-  SIM900.println();
-  delay(callLength);       // call length in mS...
-  SIM900.println("ATH");   // hang up
 }
 
-// implemented by John Boxall of tronixstuff
+void hangUp(){
+  SIM900.println("ATH");
+}
+
+// originally implemented by John Boxall of tronixstuff
 void sendSMS(String message, String phoneNumber)
 {
   SIM900.print("AT+CMGF=1\r");// AT command to send SMS message
@@ -38,11 +39,7 @@ void sendSMS(String message, String phoneNumber)
   SIM900power();             // turn off module
 }
 
-/*
- * From this point and on, Mohammed implemented all the methods
- */
- 
- 
+
 String readSMS(int index){
   String message;
   SIM900.println("AT+CMGR=" + index);
